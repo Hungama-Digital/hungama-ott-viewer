@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hungama OTT - Bucket Names</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; }
+    header { background: #007BFF; color: white; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
+    .section-tabs { display: flex; justify-content: center; background: #e9e9e9; padding: 8px 0; }
+    .section-tabs button { background: white; border: 1px solid #ccc; margin: 0 5px; padding: 8px 16px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+    .section-tabs button.active { background: #007BFF; color: white; border-color: #007BFF; }
+    .refresh-button { background: white; color: #007BFF; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-weight: bold; display: flex; align-items: center; }
+    .refresh-button:hover { background: #e6e6e6; }
+    .desktop-container { display: flex; flex-wrap: wrap; gap: 16px; padding: 16px; }
+    .section { background: white; border: 1px solid #ccc; border-radius: 6px; padding: 10px; min-width: 250px; flex: 1 1 250px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+    .section h2 { color: #007BFF; font-size: 16px; margin-bottom: 8px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+    .heading-item { padding: 6px 0; border-bottom: 1px dashed #e0e0e0; font-size: 15px; color: #333; }
+    .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #007BFF; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #ccc; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 -1px 5px rgba(0,0,0,0.1); }
+    .bottom-nav button { background: none; border: none; color: #007BFF; font-size: 14px; flex: 1; cursor: pointer; padding: 8px; }
+    .bottom-nav button.active { background: #007BFF; color: white; border-radius: 4px; }
+    @media (max-width: 768px) { .desktop-container { display: block; padding: 8px; } .bottom-nav { display: flex; } }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1 id="main-heading" style="text-align:left;">Hungama OTT - Discover Page Bucket Names</h1>
+  <button class="refresh-button" onclick="refreshPage()">Refresh</button>
+</header>
+
+<div class="section-tabs">
+  <button id="tab-discover" class="active" onclick="switchSection('discover')">Home Page</button>
+  <button id="tab-watch" onclick="switchSection('watch')">Watch Page</button>
+</div>
+
+<div id="content">Loading...</div>
+
+<div class="bottom-nav" id="nav-buttons">
+  <button onclick="loadMobileTab('india')" id="btn-india" class="active">INDIA</button>
+  <button onclick="loadMobileTab('meena')" id="btn-meena">MEENA</button>
+  <button onclick="loadMobileTab('row')" id="btn-row">ROW</button>
+  <button onclick="loadMobileTab('srilanka')" id="btn-srilanka">SRI LANKA</button>
+  <button onclick="loadMobileTab('pakistan')" id="btn-pakistan">PAKISTAN</button>
+</div>
+
+<script>
+const apiSets = {
+  discover: {
+    heading: 'Hungama OTT - Discover Page Bucket Names',
+    identifier: 'home',
+    apis: {
+      india: 'https://page.api.hungama.com/v1/page/home?alang=en&vlang=en%2Chi&mlang=en%2Chi&platform=a&device=androidtv&variant=v1&uid=1267134639&storeId=1&appVersion=9&ismusic=false&country=IN',
+      meena: 'https://page.api.hungama.com/v1/page/home?alang=en&vlang=en%2Chi&mlang=en%2Chi&platform=a&device=androidtv&variant=v1&uid=1267134639&storeId=4&appVersion=9&ismusic=false&country=all',
+      row: 'https://page.api.hungama.com/v1/page/home?alang=en&vlang=en%2Chi&mlang=en%2Chi&platform=a&device=androidtv&variant=v1&uid=1267134639&storeId=5&appVersion=9&ismusic=false&country=all',
+      srilanka: 'https://page.api.hungama.com/v1/page/home?alang=en&vlang=en%2Chi&mlang=en%2Chi&platform=a&device=androidtv&variant=v1&uid=1267134639&storeId=7&appVersion=9&ismusic=false&country=all',
+      pakistan: 'https://page.api.hungama.com/v1/page/home?alang=en&vlang=en%2Chi&mlang=en%2Chi&platform=a&device=androidtv&variant=v1&uid=1267134639&storeId=7&appVersion=2&ismusic=false&country=all'
+    }
+  },
+  watch: {
+    heading: 'Hungama OTT - Listing Bucket Names Across Stores',
+    identifier: 'watch',
+    apis: {
+      india: 'https://page.api.hungama.com/v1/page/watch?alang=en&vlang=en%2Chi&mlang=en%2Chi&platform=a&device=androidtv&variant=v1&uid=1267134639&storeId=1&appVersion=9&ismusic=false&country=IN',
+      meena: 'https://page.api.hungama.com/v1/page/watch?alang=en&vlang=en%2Chi&mlang=en%2Chi&platform=a&device=androidtv&variant=v1&uid=1267134639&storeId=4&appVersion=9&ismusic=false&country=all',
+      row: 'https://page.api.hungama.com/v1/page/watch?alang=en&vlang=en%2Chi&mlang=en%2Chi&platform=a&device=androidtv&variant=v1&uid=1267134639&storeId=5&appVersion=9&ismusic=false&country=all',
+      srilanka: 'https://page.api.hungama.com/v1/page/watch?alang=en&vlang=en%2Chi&mlang=en%2Chi&platform=a&device=androidtv&variant=v1&uid=1267134639&storeId=7&appVersion=9&ismusic=false&country=all',
+      pakistan: 'https://page.api.hungama.com/v1/page/watch?alang=en&vlang=en%2Chi&mlang=en%2Chi&platform=a&device=androidtv&variant=v1&uid=1267134639&storeId=2&appVersion=9&ismusic=false&country=all'
+    }
+  }
+};
+
+let currentSection = 'discover';
+let currentTab = 'india';
+let isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+function switchSection(section) {
+  currentSection = section;
+  document.getElementById('tab-discover').classList.remove('active');
+  document.getElementById('tab-watch').classList.remove('active');
+  document.getElementById('tab-' + section).classList.add('active');
+
+  const mainHeading = document.getElementById('main-heading');
+  mainHeading.innerText = apiSets[section].heading;
+  mainHeading.style.textAlign = section === 'watch' ? 'center' : 'left';
+
+  if (isMobile) {
+    loadMobileTab('india');
+  } else {
+    loadDesktopView();
+  }
+}
+
+function refreshPage() {
+  if (isMobile) {
+    loadMobileTab(currentTab);
+  } else {
+    loadDesktopView();
+  }
+}
+
+function loadMobileTab(tabName) {
+  currentTab = tabName;
+  document.querySelectorAll('.bottom-nav button').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('btn-' + tabName).classList.add('active');
+
+  const container = document.getElementById('content');
+  container.innerHTML = '<div class="spinner"></div>';
+  fetchAndRender(apiSets[currentSection].apis[tabName], apiSets[currentSection].identifier, container, false);
+}
+
+function loadDesktopView() {
+  const container = document.getElementById('content');
+  container.innerHTML = '<div class="desktop-container" id="desktopContainer"></div>';
+  const desktopContainer = document.getElementById('desktopContainer');
+
+  Object.keys(apiSets[currentSection].apis).forEach(tab => {
+    const sectionDiv = document.createElement('div');
+    sectionDiv.className = 'section';
+    sectionDiv.innerHTML = `<h2>${tab.toUpperCase()}</h2><div class="spinner"></div>`;
+    desktopContainer.appendChild(sectionDiv);
+    fetchAndRender(apiSets[currentSection].apis[tab], apiSets[currentSection].identifier, sectionDiv, true);
+  });
+}
+
+async function fetchAndRender(apiUrl, identifier, container, isSection) {
+  try {
+    const response = await fetch(apiUrl, {
+      headers: { 
+        identifier,
+        'Cache-Control': 'no-store'
+      },
+      cache: 'no-store'
+    });
+
+    const data = await response.json();
+    const headings = [];
+    function findHeadings(obj) {
+      if (obj && typeof obj === 'object') {
+        for (const key in obj) {
+          if (key === 'heading' && typeof obj[key] === 'string') {
+            headings.push(obj[key]);
+          } else if (typeof obj[key] === 'object') {
+            findHeadings(obj[key]);
+          }
+        }
+      }
+    }
+    findHeadings(data);
+
+    const content = headings.length
+      ? headings.map((h, idx) => `<div class="heading-item">${idx + 1}. ${h}</div>`).join('')
+      : 'No headings found.';
+
+    container.innerHTML = isSection ? `<h2>${container.querySelector('h2').innerText}</h2>${content}` : content;
+  } catch (error) {
+    container.innerHTML = 'Error loading data.';
+  }
+}
+
+window.onload = function() {
+  isMobile = window.matchMedia("(max-width: 768px)").matches;
+  if (isMobile) {
+    document.getElementById('nav-buttons').style.display = 'flex';
+    loadMobileTab('india');
+  } else {
+    document.getElementById('nav-buttons').style.display = 'none';
+    loadDesktopView();
+  }
+};
+
+window.onresize = function() {
+  const nowMobile = window.matchMedia("(max-width: 768px)").matches;
+  if (nowMobile !== isMobile) {
+    isMobile = nowMobile;
+    location.reload();
+  }
+};
+</script>
+
+</body>
+</html>
